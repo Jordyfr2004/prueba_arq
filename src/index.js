@@ -1,21 +1,25 @@
-import express from 'express'
-import rutas from './routes/users.routes.js'
-import { port } from './config.js'
-import cors from 'cors';
+import express from 'express';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
+const app = express();
+const port = process.env.PORT || 3000;
 
+// Necesario para usar __dirname con ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-const app = express()
+// Ruta para servir el archivo HTML
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'interfaz.html'));
+});
 
-app.use(express.json())
-app.use(cors());
-
-app.use(rutas)
-
+// Aquí puedes agregar tus rutas API, middlewares, etc.
 
 app.listen(port, () => {
-    console.log(`Server running on port ${port}`)
-})
+  console.log(`Servidor escuchando en http://localhost:${port}`);
+});
+
 
 
 //usar npm run dev para ejecutar en el terminal
